@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nachtlernen"
+version = "0.1.0"
+description = "Ein lokales Sprachmodell mit Gedächtnis, das nachts aus seinen eigenen Erinnerungen lernt."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{ name = "Fabian (kuehfuss)" }]
+dependencies = []
+
+[project.optional-dependencies]
+# Echtes Training auf der Grafikkarte (QLoRA). Nur auf dem KI-Rechner nötig.
+training = [
+    "torch>=2.3",
+    "transformers>=4.44",
+    "peft>=0.12",
+    "trl>=0.20",
+    "bitsandbytes>=0.43",
+    "datasets>=2.20",
+]
+# Bessere Einbettungen für den Gedächtnisabruf (z. B. bge-m3).
+einbettung = ["sentence-transformers>=3.0"]
+# Serielle Textleitung zwischen Gateway und KI-Rechner.
+leitung = ["pyserial>=3.5"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+nachtlernen = "nachtlernen.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["nachtlernen*"]
+
+[tool.setuptools.package-data]
+nachtlernen = ["daten/*.jsonl"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,13 @@
+# KI-Seite der seriellen Textleitung zum Gateway.
+[Unit]
+Description=Nachtlernen: serielle Textleitung
+After=nachtlernen-vllm.service
+
+[Service]
+User=nachtlernen
+WorkingDirectory=/srv/nachtlernen
+ExecStart=/srv/nachtlernen/.venv/bin/nachtlernen --konfig lauf.toml leitung --port /dev/ttyUSB0
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
