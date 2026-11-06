@@ -1,0 +1,11 @@
+# Ein Tag in der Textwelt. Läuft morgens, siehe nachtlernen-tag.timer.
+[Unit]
+Description=Nachtlernen: ein Tag in der Textwelt
+After=nachtlernen-vllm.service
+Requires=nachtlernen-vllm.service
+
+[Service]
+Type=oneshot
+User=nachtlernen
+WorkingDirectory=/srv/nachtlernen
+ExecStart=/srv/nachtlernen/.venv/bin/nachtlernen --konfig lauf.toml welt --schritte 240

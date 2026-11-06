@@ -1,0 +1,20 @@
+# Wach-Modell auf Karte 1. Lauscht nur auf 127.0.0.1.
+[Unit]
+Description=Nachtlernen: Wach-Modell (vLLM)
+After=network.target
+
+[Service]
+User=nachtlernen
+Environment=CUDA_VISIBLE_DEVICES=0
+Environment=VLLM_ALLOW_RUNTIME_LORA_UPDATING=True
+Environment=HF_HUB_OFFLINE=1
+ExecStart=/srv/nachtlernen/.venv/bin/vllm serve /srv/modelle/Qwen2.5-14B-Instruct \
+    --served-model-name Qwen/Qwen2.5-14B-Instruct --host 127.0.0.1 --port 8000 \
+    --enable-lora --max-lora-rank 64 --max-loras 6 \
+    --max-model-len 16384 --gpu-memory-utilization 0.92 --quantization fp8
+# 14B passt nur quantisiert auf eine 3090. fp8 (Weight-only) auf Ampere mit LoRA ist ungetestet;
+# Alternative: die AWQ-Fassung desselben Grundmodells servieren.
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

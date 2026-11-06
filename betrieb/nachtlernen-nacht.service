@@ -1,0 +1,13 @@
+# Die Nachtschleife. Training läuft auf Karte 2 (CUDA_VISIBLE_DEVICES=1 im PeftTrainer).
+[Unit]
+Description=Nachtlernen: Nachtschleife
+After=nachtlernen-vllm.service
+Requires=nachtlernen-vllm.service
+
+[Service]
+Type=oneshot
+User=nachtlernen
+WorkingDirectory=/srv/nachtlernen
+# Den gerade vergangenen Tag lernen (die Nacht beginnt nach Mitternacht UTC).
+ExecStart=/bin/sh -c '/srv/nachtlernen/.venv/bin/nachtlernen --konfig lauf.toml nacht --tag $(date -u -d yesterday +%%F)'
+TimeoutStartSec=8h

@@ -1,0 +1,23 @@
+# Beispielkonfiguration für den KI-Rechner. Kopieren nach lauf.toml und anpassen.
+ordner = "/srv/nachtlernen/lauf"
+name = "Wesen"
+
+[modell]
+url = "http://127.0.0.1:8000"
+# Bei der Geburt festlegen und danach nie mehr ändern.
+grundmodell = "Qwen/Qwen2.5-14B-Instruct"
+gewichte = "/srv/modelle/Qwen2.5-14B-Instruct"
+adapter_modus = "vllm"
+
+[gedaechtnis]
+abruf_anzahl = 8
+halbwertszeit_tage = 14
+einbettung = "/srv/modelle/bge-m3"
+
+[nacht]
+max_erinnerungen = 200
+max_anteil_neu = 0.5
+varianten = 3
+lernrate = 1e-4
+lora_rang = 32
+max_ankerverlust = 0.02
